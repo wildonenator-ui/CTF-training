@@ -101,11 +101,11 @@ body{background:var(--bg);color:var(--t);font-family:system-ui,sans-serif;displa
       <span style="margin-left:auto;color:var(--m);font-size:.82rem">50 pts</span>
     </div>
     <div class="q-title">隠しテキストを探せ</div>
-    <div class="concept">&#128161; <strong>Forensics</strong> — 隠されたデータを見つける技術。テキストを白背景に白文字で隠すことがあります。</div>
-    <p style="color:var(--m);font-size:.85rem;line-height:1.6">下の枠の中にフラグが隠れています。文字を長押しして選択してみよう！</p>
-    <div class="select-area">フラグはここに隠れています →<br><span class="hidden-flag">CTF{hidden_in_plain_sight}</span></div>
+    <div class="concept">&#128161; <strong>Forensics</strong> — 隠されたデータを見つける技術。見えているものがすべてとは限りません。</div>
+    <p style="color:var(--m);font-size:.85rem;line-height:1.6">このページのどこかにフラグが隠されています。よく探してみよう。</p>
+    <div class="select-area">CTFはセキュリティの知識を競う競技です。<span class="hidden-flag">CTF{hidden_in_plain_sight}</span>様々な技術を駆使してフラグを見つけましょう。</div>
     <button class="hint-btn" onclick="toggleHint('h1')">&#128161; ヒントを見る</button>
-    <div class="hint-text" id="h1">テキストを長押し →「すべて選択」または指でドラッグして選択。白い文字が反転表示で見えます。</div>
+    <div class="hint-text" id="h1">画面上のテキストを長押しして選択してみよう。見えていないものが見えてくるかも。</div>
     <div class="flag-wrap">
       <input class="flag-input" id="f1" placeholder="CTF{...}" autocomplete="off" autocapitalize="none"/>
       <button class="sub-btn" onclick="check(1,'CTF{hidden_in_plain_sight}')">Submit</button>
