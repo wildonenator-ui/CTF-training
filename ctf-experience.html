@@ -120,12 +120,12 @@ body{background:var(--bg);color:var(--t);font-family:system-ui,sans-serif;displa
       <div><div class="diff"><span class="star" style="color:var(--g)">&#9733;</span><span class="star" style="color:var(--b)">&#9733;</span><span class="star" style="color:var(--b)">&#9733;</span></div></div>
       <span style="margin-left:auto;color:var(--m);font-size:.82rem">75 pts</span>
     </div>
-    <div class="q-title">Base64デコード</div>
-    <div class="concept">&#128161; <strong>Base64</strong> — バイナリをASCIIに変換するエンコード方式。末尾の = が目印です。</div>
-    <p style="color:var(--m);font-size:.85rem;line-height:1.6">以下の文字列をBase64デコードするとフラグが現れます。</p>
+    <div class="q-title">謎の文字列</div>
+    <div class="concept">&#128161; <strong>Crypto</strong> — データは様々な方法で変換・エンコードされることがあります。元に戻す方法を見つけましょう。</div>
+    <p style="color:var(--m);font-size:.85rem;line-height:1.6">不審な文字列が見つかった。これは何を意味するのだろう？</p>
     <div class="challenge-box">Q1RGe2Jhc2U2NF9pc19mdW59</div>
     <button class="hint-btn" onclick="toggleHint('h2')">&#128161; ヒントを見る</button>
-    <div class="hint-text" id="h2">Toolkitの「Encode / Decode」→ Base64 → 文字列を貼り付けて「Decode」。</div>
+    <div class="hint-text" id="h2">英数字と記号だけで構成された文字列。よく使われるエンコード方式を試してみよう。Toolkitが役立つかも。</div>
     <div class="flag-wrap">
       <input class="flag-input" id="f2" placeholder="CTF{...}" autocomplete="off" autocapitalize="none"/>
       <button class="sub-btn" onclick="check(2,'CTF{base64_is_fun}')">Submit</button>
@@ -140,12 +140,12 @@ body{background:var(--bg);color:var(--t);font-family:system-ui,sans-serif;displa
       <div><div class="diff"><span class="star" style="color:var(--g)">&#9733;</span><span class="star" style="color:var(--b)">&#9733;</span><span class="star" style="color:var(--b)">&#9733;</span></div></div>
       <span style="margin-left:auto;color:var(--m);font-size:.82rem">75 pts</span>
     </div>
-    <div class="q-title">ROT13暗号を解読</div>
-    <div class="concept">&#128161; <strong>ROT13</strong> — アルファベットを13文字ずらす暗号。同じ操作を2回行うと元に戻ります。</div>
-    <p style="color:var(--m);font-size:.85rem;line-height:1.6">以下のROT13暗号文を解読してください。</p>
+    <div class="q-title">暗号化されたメッセージ</div>
+    <div class="concept">&#128161; <strong>Cipher</strong> — 暗号化とは情報を変換して第三者に読めなくすること。古典的な手法の多くはアルファベットの置き換えを使います。</div>
+    <p style="color:var(--m);font-size:.85rem;line-height:1.6">読めないメッセージが届いた。何かのルールで変換されているようだ。</p>
     <div class="challenge-box">PGS{ebg13_vf_rnfl}</div>
     <button class="hint-btn" onclick="toggleHint('h3')">&#128161; ヒントを見る</button>
-    <div class="hint-text" id="h3">Toolkitの「Cipher」→ Caesar/ROT → Shift=13 → 暗号文を入力して「Decrypt」。</div>
+    <div class="hint-text" id="h3">アルファベットが一定数ずれているように見える。何文字ずれているか試してみよう。Toolkitの「Cipher」タブが使えるかも。</div>
     <div class="flag-wrap">
       <input class="flag-input" id="f3" placeholder="CTF{...}" autocomplete="off" autocapitalize="none"/>
       <button class="sub-btn" onclick="check(3,'CTF{rot13_is_easy}')">Submit</button>
@@ -160,12 +160,12 @@ body{background:var(--bg);color:var(--t);font-family:system-ui,sans-serif;displa
       <div><div class="diff"><span class="star" style="color:var(--g)">&#9733;</span><span class="star" style="color:var(--g)">&#9733;</span><span class="star" style="color:var(--b)">&#9733;</span></div></div>
       <span style="margin-left:auto;color:var(--m);font-size:.82rem">100 pts</span>
     </div>
-    <div class="q-title">2進数を読め</div>
-    <div class="concept">&#128161; <strong>Binary</strong> — コンピュータは全データを0と1で扱います。8ビット＝1バイト＝1文字（ASCII）。</div>
-    <p style="color:var(--m);font-size:.85rem;line-height:1.6">以下の2進数をASCII文字に変換するとフラグが現れます。</p>
+    <div class="q-title">謎の数列</div>
+    <div class="concept">&#128161; <strong>Number</strong> — コンピュータはすべての情報を数値で扱います。数値の表現方法を変えると、別の意味が現れることがあります。</div>
+    <p style="color:var(--m);font-size:.85rem;line-height:1.6">0と1だけで構成された奇妙な数列が見つかった。これは一体何だろう？</p>
     <div class="challenge-box">01000011 01010100 01000110 01111011 01100010 01101001 01101110 01100001 01110010 01111001 01111101</div>
     <button class="hint-btn" onclick="toggleHint('h4')">&#128161; ヒントを見る</button>
-    <div class="hint-text" id="h4">Toolkitの「Encode / Decode」→ Binary → 2進数を貼り付けて「Binary → Text」。</div>
+    <div class="hint-text" id="h4">0と1だけの数値。コンピュータが使う最も基本的な数の表現を思い出してみよう。Toolkitで変換できるかも。</div>
     <div class="flag-wrap">
       <input class="flag-input" id="f4" placeholder="CTF{...}" autocomplete="off" autocapitalize="none"/>
       <button class="sub-btn" onclick="check(4,'CTF{binary}')">Submit</button>
@@ -180,14 +180,14 @@ body{background:var(--bg);color:var(--t);font-family:system-ui,sans-serif;displa
       <div><div class="diff"><span class="star" style="color:var(--g)">&#9733;</span><span class="star" style="color:var(--g)">&#9733;</span><span class="star" style="color:var(--b)">&#9733;</span></div></div>
       <span style="margin-left:auto;color:var(--m);font-size:.82rem">100 pts</span>
     </div>
-    <div class="q-title">JavaScriptの謎</div>
-    <div class="concept">&#128161; <strong>Code Reading</strong> — CTFではコードを難読化してフラグを隠すことがあります。「Run」で実行してみよう。</div>
-    <p style="color:var(--m);font-size:.85rem;line-height:1.6">以下のJavaScriptを実行するとフラグが得られます。</p>
+    <div class="q-title">このコードは何をする？</div>
+    <div class="concept">&#128161; <strong>Misc</strong> — CTFでは様々な形でフラグが隠されます。コードを読み解くことも重要なスキルです。</div>
+    <p style="color:var(--m);font-size:.85rem;line-height:1.6">数値の羅列と不思議なコードが見つかった。動かすと何が起きるだろう？</p>
     <div class="challenge-box">[68,85,71,124,107,98,119,98,116,100,115,<br>106,113,117,96,103,118,111,126]<br>.map(x=&gt;String.fromCharCode(x-1)).join('')</div>
     <button class="run-btn" onclick="runCode()">&#9654;&nbsp; Run</button>
     <div class="run-out" id="run-out"></div>
     <button class="hint-btn" onclick="toggleHint('h5')">&#128161; ヒントを見る</button>
-    <div class="hint-text" id="h5">各数値から1を引いてASCII文字に変換しています。「Run」を押すと答えが表示されます。</div>
+    <div class="hint-text" id="h5">数値を文字に変換しているようだ。「Run」ボタンで実際に動かして確認してみよう。</div>
     <div class="flag-wrap">
       <input class="flag-input" id="f5" placeholder="CTF{...}" autocomplete="off" autocapitalize="none"/>
       <button class="sub-btn" onclick="check(5,'CTF{javascript_fun}')">Submit</button>
