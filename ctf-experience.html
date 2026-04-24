@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>CTF体験 - スマホで学ぼう</title>
+<style>
+:root{--bg:#0d1117;--s:#161b22;--b:#30363d;--a:#58a6ff;--g:#3fb950;--r:#f78166;--t:#c9d1d9;--m:#8b949e}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--t);font-family:system-ui,sans-serif;min-height:100vh;padding-bottom:3rem}
+header{background:var(--s);border-bottom:1px solid var(--b);padding:1rem;text-align:center}
+header h1{color:var(--a);font-size:1.3rem}
+header p{color:var(--m);font-size:.85rem;margin-top:.3rem}
+.score-bar{background:var(--s);border-bottom:1px solid var(--b);padding:.75rem 1rem;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:10}
+.score-bar .pts{color:var(--a);font-size:1.1rem;font-weight:700}
+.score-bar .progress{color:var(--m);font-size:.82rem}
+.prog-track{height:4px;background:var(--b);margin:0}
+.prog-fill{height:4px;background:linear-gradient(90deg,var(--a),var(--g));transition:width .4s}
+.intro{background:var(--s);border:1px solid var(--b);border-radius:8px;margin:1rem;padding:1rem;font-size:.88rem;line-height:1.6;color:var(--m)}
+.intro strong{color:var(--t)}
+.challenges{padding:0 1rem}
+.card{background:var(--s);border:1px solid var(--b);border-radius:8px;margin-bottom:1rem;overflow:hidden}
+.card-head{padding:.9rem 1rem;display:flex;align-items:center;gap:.6rem;cursor:pointer;user-select:none}
+.card-head:active{background:#ffffff08}
+.cat{border-radius:10px;font-size:.7rem;padding:2px 8px;text-transform:uppercase;font-weight:600;white-space:nowrap}
+.cat-forensics{background:#e3b34122;color:#e3b341;border:1px solid #e3b34144}
+.cat-crypto{background:#388bfd22;color:#79c0ff;border:1px solid #388bfd44}
+.cat-cipher{background:#8957e522;color:#d2a8ff;border:1px solid #8957e544}
+.cat-number{background:#1abc9c22;color:#56d364;border:1px solid #1abc9c44}
+.cat-misc{background:#da363322;color:#f85149;border:1px solid #da363344}
+.card-title{flex:1;font-size:.95rem;font-weight:600}
+.card-pts{color:var(--m);font-size:.8rem;white-space:nowrap}
+.chevron{color:var(--m);font-size:.75rem;transition:transform .2s}
+.card.open .chevron{transform:rotate(180deg)}
+.card-body{display:none;padding:1rem;border-top:1px solid var(--b)}
+.card.open .card-body{display:block}
+.diff{display:flex;gap:3px;margin-bottom:.75rem}
+.star{font-size:.7rem}
+.concept{background:#1f6feb18;border:1px solid #1f6feb44;border-radius:6px;padding:.75rem;margin-bottom:.75rem;font-size:.82rem;line-height:1.6;color:#79c0ff}
+.challenge-content{background:var(--bg);border:1px solid var(--b);border-radius:6px;padding:.75rem;margin-bottom:.75rem;font-family:monospace;font-size:.82rem;word-break:break-all;line-height:1.7}
+.hint-btn{background:none;border:1px solid var(--b);border-radius:6px;color:var(--m);cursor:pointer;font-size:.8rem;padding:.4rem .8rem;margin-bottom:.5rem}
+.hint-btn:active{background:var(--b)}
+.hint-text{display:none;color:var(--m);font-size:.82rem;margin-bottom:.75rem;padding:.5rem;background:#ffffff08;border-radius:6px}
+.hint-text.show{display:block}
+.flag-area{display:flex;gap:.5rem;margin-top:.5rem}
+.flag-input{flex:1;background:var(--bg);border:1px solid var(--b);border-radius:6px;color:var(--t);font-family:monospace;font-size:.85rem;padding:.6rem .75rem;outline:none}
+.flag-input:focus{border-color:var(--a)}
+.flag-input.correct{border-color:var(--g)}
+.flag-input.wrong{border-color:var(--r)}
+.submit-btn{background:#1f6feb;border:none;border-radius:6px;color:#fff;cursor:pointer;font-size:.85rem;padding:.6rem 1rem;white-space:nowrap}
+.submit-btn:active{background:#388bfd}
+.result{font-size:.82rem;margin-top:.5rem;padding:.4rem .6rem;border-radius:6px;display:none}
+.result.ok{display:block;background:#23863622;color:var(--g);border:1px solid #23863644}
+.result.ng{display:block;background:#da363322;color:var(--r);border:1px solid #da363344}
+.solved-badge{color:var(--g);font-size:.75rem;margin-left:auto}
+.run-btn{background:#21262d;border:1px solid var(--b);border-radius:6px;color:var(--t);cursor:pointer;font-size:.8rem;padding:.4rem .9rem;margin-bottom:.75rem}
+.run-btn:active{background:var(--b)}
+.run-out{background:var(--bg);border:1px solid var(--b);border-radius:6px;color:var(--g);font-family:monospace;font-size:.85rem;padding:.5rem .75rem;margin-bottom:.75rem;display:none}
+.select-area{background:#1a1a2e;border:1px solid var(--b);border-radius:6px;padding:1rem;margin-bottom:.75rem;font-size:.9rem;cursor:text;user-select:text;-webkit-user-select:text}
+.hidden-flag{color:#1a1a2e;background:#1a1a2e;user-select:text;-webkit-user-select:text;font-family:monospace}
+.complete-overlay{display:none;position:fixed;inset:0;background:#000000cc;z-index:100;align-items:center;justify-content:center}
+.complete-overlay.show{display:flex}
+.complete-box{background:var(--s);border:1px solid var(--g);border-radius:12px;padding:2rem;text-align:center;max-width:280px}
+.complete-box h2{color:var(--g);font-size:1.5rem;margin:.5rem 0}
+.complete-box p{color:var(--m);font-size:.88rem;margin:.5rem 0}
+.close-btn{background:#238636;border:none;border-radius:6px;color:#fff;cursor:pointer;font-size:.9rem;margin-top:1rem;padding:.6rem 1.5rem}
+a.back-link{color:var(--a);display:block;font-size:.85rem;padding:.75rem 1rem;text-decoration:none}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>&#127939; CTF体験チャレンジ</h1>
+  <p>スマートフォンで学ぶセキュリティ入門</p>
+</header>
+
+<div class="score-bar">
+  <div>
+    <div class="pts" id="score">0 pts</div>
+    <div class="progress" id="prog-text">0 / 5 solved</div>
+  </div>
+  <a class="back-link" href="index.html">&#8592; Toolkit</a>
+</div>
+<div class="prog-track"><div class="prog-fill" id="prog-fill" style="width:0%"></div></div>
+
+<div class="intro">
+  <strong>CTF（Capture The Flag）とは？</strong><br>
+  セキュリティの知識を競う競技です。各チャレンジに隠された「フラグ」を見つけて提出します。フラグは通常 <code>CTF{...}</code> の形式です。全5問に挑戦しよう！
+</div>
+
+<div class="challenges">
+
+<!-- Challenge 1 -->
+<div class="card open" id="c1">
+  <div class="card-head" onclick="toggleCard('c1')">
+    <span class="cat cat-forensics">Forensics</span>
+    <span class="card-title">隠しテキストを探せ</span>
+    <span class="card-pts">50pts</span>
+    <span class="solved-badge" id="c1-badge" style="display:none">&#10003; Solved</span>
+    <span class="chevron">&#9660;</span>
+  </div>
+  <div class="card-body">
+    <div class="diff"><span class="star" style="color:var(--g)">&#9733;</span><span class="star" style="color:var(--b)">&#9733;</span><span class="star" style="color:var(--b)">&#9733;</span></div>
+    <div class="concept">&#128161; <strong>Forensics</strong>とは、隠されたデータを見つけ出す技術です。テキストが白い背景に白い文字で隠されることがあります。</div>
+    <p style="font-size:.85rem;color:var(--m);margin-bottom:.75rem">下の枠の中にフラグが隠れています。文字を長押し（または選択）して探してみよう！</p>
+    <div class="select-area">
+      フラグはここに隠れています →
+      <span class="hidden-flag">CTF{hidden_in_plain_sight}</span>
+    </div>
+    <button class="hint-btn" onclick="toggleHint('h1')">&#128161; ヒントを見る</button>
+    <div class="hint-text" id="h1">テキストを長押しして「すべて選択」または指でドラッグして選択してみよう。白い文字が選択状態で見えるはずです。</div>
+    <div class="flag-area">
+      <input class="flag-input" id="f1" placeholder="CTF{...}" />
+      <button class="submit-btn" onclick="check(1,'CTF{hidden_in_plain_sight}')">Submit</button>
+    </div>
+    <div class="result" id="r1"></div>
+  </div>
+</div>
+
+<!-- Challenge 2 -->
+<div class="card" id="c2">
+  <div class="card-head" onclick="toggleCard('c2')">
+    <span class="cat cat-crypto">Crypto</span>
+    <span class="card-title">Base64デコード</span>
+    <span class="card-pts">75pts</span>
+    <span class="solved-badge" id="c2-badge" style="display:none">&#10003; Solved</span>
+    <span class="chevron">&#9660;</span>
+  </div>
+  <div class="card-body">
+    <div class="diff"><span class="star" style="color:var(--g)">&#9733;</span><span class="star" style="color:var(--b)">&#9733;</span><span class="star" style="color:var(--b)">&#9733;</span></div>
+    <div class="concept">&#128161; <strong>Base64</strong>はバイナリデータをASCII文字列に変換するエンコード方式です。CTFでは暗号化でなくエンコードに使われます。</div>
+    <p style="font-size:.85rem;color:var(--m);margin-bottom:.75rem">以下の文字列をBase64デコードするとフラグが現れます。</p>
+    <div class="challenge-content">Q1RGe2Jhc2U2NF9pc19mdW59</div>
+    <button class="hint-btn" onclick="toggleHint('h2')">&#128161; ヒントを見る</button>
+    <div class="hint-text" id="h2">Toolkitの「Encode / Decode」タブ → Base64 → 文字列を貼り付けて「Decode」ボタンを押そう。</div>
+    <div class="flag-area">
+      <input class="flag-input" id="f2" placeholder="CTF{...}" />
+      <button class="submit-btn" onclick="check(2,'CTF{base64_is_fun}')">Submit</button>
+    </div>
+    <div class="result" id="r2"></div>
+  </div>
+</div>
+
+<!-- Challenge 3 -->
+<div class="card" id="c3">
+  <div class="card-head" onclick="toggleCard('c3')">
+    <span class="cat cat-cipher">Cipher</span>
+    <span class="card-title">ROT13暗号を解読</span>
+    <span class="card-pts">75pts</span>
+    <span class="solved-badge" id="c3-badge" style="display:none">&#10003; Solved</span>
+    <span class="chevron">&#9660;</span>
+  </div>
+  <div class="card-body">
+    <div class="diff"><span class="star" style="color:var(--g)">&#9733;</span><span class="star" style="color:var(--b)">&#9733;</span><span class="star" style="color:var(--b)">&#9733;</span></div>
+    <div class="concept">&#128161; <strong>ROT13</strong>はアルファベットを13文字ずらす簡単な暗号です。同じ操作を2回行うと元に戻ります。</div>
+    <p style="font-size:.85rem;color:var(--m);margin-bottom:.75rem">以下のROT13暗号文を解読してください。</p>
+    <div class="challenge-content">PGS{ebg13_vf_rnfl}</div>
+    <button class="hint-btn" onclick="toggleHint('h3')">&#128161; ヒントを見る</button>
+    <div class="hint-text" id="h3">Toolkitの「Cipher」タブ → Caesar/ROT → Shift=13 → 暗号文を入力して「Decrypt」を押そう。</div>
+    <div class="flag-area">
+      <input class="flag-input" id="f3" placeholder="CTF{...}" />
+      <button class="submit-btn" onclick="check(3,'CTF{rot13_is_easy}')">Submit</button>
+    </div>
+    <div class="result" id="r3"></div>
+  </div>
+</div>
+
+<!-- Challenge 4 -->
+<div class="card" id="c4">
+  <div class="card-head" onclick="toggleCard('c4')">
+    <span class="cat cat-number">Number</span>
+    <span class="card-title">2進数を読め</span>
+    <span class="card-pts">100pts</span>
+    <span class="solved-badge" id="c4-badge" style="display:none">&#10003; Solved</span>
+    <span class="chevron">&#9660;</span>
+  </div>
+  <div class="card-body">
+    <div class="diff"><span class="star" style="color:var(--g)">&#9733;</span><span class="star" style="color:var(--g)">&#9733;</span><span class="star" style="color:var(--b)">&#9733;</span></div>
+    <div class="concept">&#128161; コンピュータはすべてのデータを<strong>2進数（0と1）</strong>で扱います。8ビット＝1バイト＝1文字（ASCII）。</div>
+    <p style="font-size:.85rem;color:var(--m);margin-bottom:.75rem">以下の2進数をASCII文字に変換するとフラグが現れます。</p>
+    <div class="challenge-content">01000011 01010100 01000110 01111011 01100010 01101001 01101110 01100001 01110010 01111001 01111101</div>
+    <button class="hint-btn" onclick="toggleHint('h4')">&#128161; ヒントを見る</button>
+    <div class="hint-text" id="h4">Toolkitの「Encode / Decode」タブ → Binary → 2進数を貼り付けて「Binary → Text」を押そう。</div>
+    <div class="flag-area">
+      <input class="flag-input" id="f4" placeholder="CTF{...}" />
+      <button class="submit-btn" onclick="check(4,'CTF{binary}')">Submit</button>
+    </div>
+    <div class="result" id="r4"></div>
+  </div>
+</div>
+
+<!-- Challenge 5 -->
+<div class="card" id="c5">
+  <div class="card-head" onclick="toggleCard('c5')">
+    <span class="cat cat-misc">Misc</span>
+    <span class="card-title">JavaScriptの謎</span>
+    <span class="card-pts">100pts</span>
+    <span class="solved-badge" id="c5-badge" style="display:none">&#10003; Solved</span>
+    <span class="chevron">&#9660;</span>
+  </div>
+  <div class="card-body">
+    <div class="diff"><span class="star" style="color:var(--g)">&#9733;</span><span class="star" style="color:var(--g)">&#9733;</span><span class="star" style="color:var(--b)">&#9733;</span></div>
+    <div class="concept">&#128161; CTFではコードを難読化してフラグを隠すことがあります。コードを「実行」して何が出力されるかを確認しましょう。</div>
+    <p style="font-size:.85rem;color:var(--m);margin-bottom:.75rem">以下のJavaScriptを実行するとフラグが得られます。「Run」ボタンで実行してみよう！</p>
+    <div class="challenge-content">[68,85,71,124,107,98,119,98,116,100,115,106,113,117,96,103,118,111,126].map(x=>String.fromCharCode(x-1)).join('')</div>
+    <button class="run-btn" onclick="runCode()">&#9654; Run</button>
+    <div class="run-out" id="run-out"></div>
+    <button class="hint-btn" onclick="toggleHint('h5')">&#128161; ヒントを見る</button>
+    <div class="hint-text" id="h5">各数値から1を引いてASCII文字に変換しています。「Run」を押すと結果が表示されます。</div>
+    <div class="flag-area">
+      <input class="flag-input" id="f5" placeholder="CTF{...}" />
+      <button class="submit-btn" onclick="check(5,'CTF{javascript_fun}')">Submit</button>
+    </div>
+    <div class="result" id="r5"></div>
+  </div>
+</div>
+
+</div><!-- /challenges -->
+
+<div class="complete-overlay" id="complete">
+  <div class="complete-box">
+    <div style="font-size:2.5rem">&#127881;</div>
+    <h2>全問クリア！</h2>
+    <p>おめでとうございます！<br>CTFの基礎を完全にマスターしました。</p>
+    <p style="margin-top:.75rem;color:var(--a);font-weight:700" id="final-score"></p>
+    <button class="close-btn" onclick="document.getElementById('complete').classList.remove('show')">Close</button>
+  </div>
+</div>
+
+<script>
+const PTS = {1:50,2:75,3:75,4:100,5:100};
+const solved = {};
+
+function toggleCard(id){
+  document.getElementById(id).classList.toggle('open');
+}
+
+function toggleHint(id){
+  const el = document.getElementById(id);
+  el.classList.toggle('show');
+}
+
+function check(n, correct){
+  const inp = document.getElementById('f'+n);
+  const res = document.getElementById('r'+n);
+  const val = inp.value.trim();
+  if(val.toLowerCase() === correct.toLowerCase()){
+    if(!solved[n]){
+      solved[n] = true;
+      updateScore();
+    }
+    inp.className = 'flag-input correct';
+    res.className = 'result ok';
+    res.textContent = '&#10003; 正解！ +' + PTS[n] + 'pts';
+    res.innerHTML = '&#10003; 正解！ +' + PTS[n] + 'pts';
+    document.getElementById('c'+n+'-badge').style.display='inline';
+    if(Object.keys(solved).length === 5) showComplete();
+  } else {
+    inp.className = 'flag-input wrong';
+    res.className = 'result ng';
+    res.textContent = '&#10007; 不正解。もう一度試してみよう。';
+    res.innerHTML = '&#10007; 不正解。もう一度試してみよう。';
+    setTimeout(()=>{ inp.className='flag-input'; }, 1000);
+  }
+}
+
+function updateScore(){
+  const pts = Object.keys(solved).reduce((s,k)=>s+PTS[k],0);
+  const cnt = Object.keys(solved).length;
+  document.getElementById('score').textContent = pts + ' pts';
+  document.getElementById('prog-text').textContent = cnt + ' / 5 solved';
+  document.getElementById('prog-fill').style.width = (cnt/5*100) + '%';
+}
+
+function runCode(){
+  const out = [68,85,71,124,107,98,119,98,116,100,115,106,113,117,96,103,118,111,126].map(x=>String.fromCharCode(x-1)).join('');
+  const el = document.getElementById('run-out');
+  el.textContent = out;
+  el.style.display = 'block';
+}
+
+function showComplete(){
+  const pts = Object.keys(solved).reduce((s,k)=>s+PTS[k],0);
+  document.getElementById('final-score').textContent = '総得点: ' + pts + ' / 400 pts';
+  document.getElementById('complete').classList.add('show');
+}
+</script>
+</body>
+</html>
