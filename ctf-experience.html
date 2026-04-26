@@ -67,6 +67,8 @@ body{background:var(--bg);color:var(--t);font-family:system-ui,sans-serif;displa
 .sub-btn{background:var(--a);border:none;border-radius:10px;color:#fff;cursor:pointer;font-size:.9rem;padding:.7rem 1.1rem;white-space:nowrap;font-weight:700}
 .sub-btn:active{opacity:.85}
 
+.hint-text .run-btn{background:#9a6700;color:#fff;border:none}
+.hint-text .run-out{background:#fff3cc;border-color:#e6c200;color:#6e4700;margin-top:.4rem}
 .result{border-radius:8px;font-size:.85rem;padding:.6rem .9rem;display:none;font-weight:500}
 .result.ok{display:block;background:#dafbe1;color:var(--g);border:1px solid #82e09a}
 .result.ng{display:block;background:#ffebe9;color:var(--r);border:1px solid #ffb8b0}
@@ -143,17 +145,12 @@ body{background:var(--bg);color:var(--t);font-family:system-ui,sans-serif;displa
     <div class="concept">&#128161; <strong>Crypto</strong> — データは様々な方法で変換・エンコードされることがあります。元に戻す方法を見つけましょう。</div>
     <p class="desc">不審な文字列が見つかった。これは何を意味するのだろう？</p>
     <div class="challenge-box">Q1RGe2Jhc2U2NF9pc19mdW59</div>
-    <button class="run-btn" onclick="decodeB64()">&#128273;&nbsp; デコードしてみる</button>
-    <div class="run-out" id="b64-out"></div>
     <button class="hint-btn" onclick="toggleHint('h2')">&#128161; ヒントを見る</button>
     <div class="hint-text" id="h2">
-      <strong>手順：</strong>
-      <ol>
-        <li>「デコードしてみる」ボタンを押す</li>
-        <li>文字列が元の形に変換されて表示される</li>
-        <li>表示された <code>CTF{...}</code> がフラグ</li>
-      </ol>
-      <strong style="display:block;margin-top:.5rem">Base64とは？</strong>データをアルファベットと数字だけで表現するしくみ。メールやWebでよく使われます。
+      <strong>Base64とは？</strong>データをアルファベットと数字だけで表現するしくみ。メールやWebでよく使われます。<br><br>
+      下のボタンで元の文字列に変換できます。
+      <button class="run-btn" onclick="decodeB64()" style="margin-top:.6rem">&#128273;&nbsp; デコードしてみる</button>
+      <div class="run-out" id="b64-out"></div>
     </div>
     <div class="flag-wrap">
       <input class="flag-input" id="f2" placeholder="CTF{...}" autocomplete="off" autocapitalize="none"/>
@@ -173,17 +170,12 @@ body{background:var(--bg);color:var(--t);font-family:system-ui,sans-serif;displa
     <div class="concept">&#128161; <strong>Cipher</strong> — 暗号化とは情報を変換して第三者に読めなくすること。古典的な手法の多くはアルファベットの置き換えを使います。</div>
     <p class="desc">読めないメッセージが届いた。何かのルールで変換されているようだ。</p>
     <div class="challenge-box">PGS{ebg13_vf_rnfl}</div>
-    <button class="run-btn" onclick="decodeRot13()">&#128273;&nbsp; 解読してみる</button>
-    <div class="run-out" id="rot-out"></div>
     <button class="hint-btn" onclick="toggleHint('h3')">&#128161; ヒントを見る</button>
     <div class="hint-text" id="h3">
-      <strong>手順：</strong>
-      <ol>
-        <li>「解読してみる」ボタンを押す</li>
-        <li>暗号が解かれて読めるメッセージが表示される</li>
-        <li>表示された <code>CTF{...}</code> がフラグ</li>
-      </ol>
-      <strong style="display:block;margin-top:.5rem">ROT13とは？</strong>アルファベットを13文字ずらす暗号。AはN、BはO…のように入れ替えます。
+      <strong>ROT13とは？</strong>アルファベットを13文字ずらす暗号。AはN、BはO…のように入れ替えます。<br><br>
+      下のボタンで暗号を解読できます。
+      <button class="run-btn" onclick="decodeRot13()" style="margin-top:.6rem">&#128273;&nbsp; 解読してみる</button>
+      <div class="run-out" id="rot-out"></div>
     </div>
     <div class="flag-wrap">
       <input class="flag-input" id="f3" placeholder="CTF{...}" autocomplete="off" autocapitalize="none"/>
@@ -203,17 +195,12 @@ body{background:var(--bg);color:var(--t);font-family:system-ui,sans-serif;displa
     <div class="concept">&#128161; <strong>Number</strong> — コンピュータはすべての情報を数値で扱います。数値の表現方法を変えると、別の意味が現れることがあります。</div>
     <p class="desc">0と1だけで構成された奇妙な数列が見つかった。これは一体何だろう？</p>
     <div class="challenge-box">01000011 01010100 01000110 01111011 01100010 01101001 01101110 01100001 01110010 01111001 01111101</div>
-    <button class="run-btn" onclick="decodeBin()">&#128273;&nbsp; 変換してみる</button>
-    <div class="run-out" id="bin-out"></div>
     <button class="hint-btn" onclick="toggleHint('h4')">&#128161; ヒントを見る</button>
     <div class="hint-text" id="h4">
-      <strong>手順：</strong>
-      <ol>
-        <li>「変換してみる」ボタンを押す</li>
-        <li>0と1の数列が文字に変換されて表示される</li>
-        <li>表示された <code>CTF{...}</code> がフラグ</li>
-      </ol>
-      <strong style="display:block;margin-top:.5rem">2進数とは？</strong>コンピュータは0と1しか扱えません。8個の0と1の組み合わせで1文字を表します。
+      <strong>2進数とは？</strong>コンピュータは0と1しか扱えません。8個の0と1の組み合わせで1文字を表します。<br><br>
+      下のボタンで文字に変換できます。
+      <button class="run-btn" onclick="decodeBin()" style="margin-top:.6rem">&#128273;&nbsp; 変換してみる</button>
+      <div class="run-out" id="bin-out"></div>
     </div>
     <div class="flag-wrap">
       <input class="flag-input" id="f4" placeholder="CTF{...}" autocomplete="off" autocapitalize="none"/>
@@ -233,13 +220,14 @@ body{background:var(--bg);color:var(--t);font-family:system-ui,sans-serif;displa
     <div class="concept">&#128161; <strong>Misc</strong> — CTFでは様々な形でフラグが隠されます。コードを読み解くことも重要なスキルです。</div>
     <p class="desc">数値の羅列と不思議なコードが見つかった。動かすと何が起きるだろう？</p>
     <div class="challenge-box">[68,85,71,124,107,98,119,98,116,100,115,<br>106,113,117,96,103,118,111,126]<br>.map(x=&gt;String.fromCharCode(x-1)).join('')</div>
-    <button class="run-btn" onclick="runCode()">&#9654;&nbsp; Run</button>
-    <div class="run-out" id="run-out"></div>
     <button class="hint-btn" onclick="toggleHint('h5')">&#128161; ヒントを見る</button>
     <div class="hint-text" id="h5">
-      <strong>手順：</strong>
-      <ol>
-        <li>上の「Run」ボタンを押す</li>
+      <strong>プログラムとは？</strong>コンピュータへの命令の列です。このコードは数値を文字に変換しています。<br><br>
+      下のボタンで実際に動かしてみよう。
+      <button class="run-btn" onclick="runCode()" style="margin-top:.6rem">&#9654;&nbsp; 実行してみる</button>
+      <div class="run-out" id="run-out"></div>
+      <ol style="margin-top:.6rem">
+        <li>上の「実行してみる」ボタンを押す</li>
         <li>コードが実行されて結果が表示される</li>
         <li>表示された <code>CTF{...}</code> がフラグ</li>
       </ol>
