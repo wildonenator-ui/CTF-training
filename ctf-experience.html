@@ -149,9 +149,14 @@ body{background:var(--bg);color:var(--t);font-family:system-ui,sans-serif;displa
     <button class="hint-btn" onclick="toggleHint('h2')">&#128161; ヒントを見る</button>
     <div class="hint-text" id="h2">
       <strong>Base64とは？</strong>データをアルファベットと数字だけで表現するしくみ。メールやWebでよく使われます。<br><br>
-      下のボタンで元の文字列に変換できます。
-      <button class="run-btn" onclick="decodeB64()" style="margin-top:.6rem">&#128273;&nbsp; デコードしてみる</button>
-      <div class="run-out" id="b64-out"></div>
+      <strong>手順：</strong>
+      <ol>
+        <li>画面左上の「← Toolkit」をタップ</li>
+        <li>「Encode / Decode」タブを選ぶ</li>
+        <li>「Base64」欄に上の文字列を貼り付ける</li>
+        <li>「Decode」ボタンを押す</li>
+        <li>表示された <code>CTF{...}</code> がフラグ</li>
+      </ol>
     </div>
     <div class="flag-wrap">
       <input class="flag-input" id="f2" placeholder="CTF{...}" autocomplete="off" autocapitalize="none"/>
@@ -174,9 +179,14 @@ body{background:var(--bg);color:var(--t);font-family:system-ui,sans-serif;displa
     <button class="hint-btn" onclick="toggleHint('h3')">&#128161; ヒントを見る</button>
     <div class="hint-text" id="h3">
       <strong>ROT13とは？</strong>アルファベットを13文字ずらす暗号。AはN、BはO…のように入れ替えます。<br><br>
-      下のボタンで暗号を解読できます。
-      <button class="run-btn" onclick="decodeRot13()" style="margin-top:.6rem">&#128273;&nbsp; 解読してみる</button>
-      <div class="run-out" id="rot-out"></div>
+      <strong>手順：</strong>
+      <ol>
+        <li>画面左上の「← Toolkit」をタップ</li>
+        <li>「Cipher」タブを選ぶ</li>
+        <li>「Caesar / ROT Cipher」欄に上の文字列を貼り付ける</li>
+        <li>Shift が <code>13</code> になっていることを確認して「Decrypt」を押す</li>
+        <li>表示された <code>CTF{...}</code> がフラグ</li>
+      </ol>
     </div>
     <div class="flag-wrap">
       <input class="flag-input" id="f3" placeholder="CTF{...}" autocomplete="off" autocapitalize="none"/>
@@ -199,9 +209,14 @@ body{background:var(--bg);color:var(--t);font-family:system-ui,sans-serif;displa
     <button class="hint-btn" onclick="toggleHint('h4')">&#128161; ヒントを見る</button>
     <div class="hint-text" id="h4">
       <strong>2進数とは？</strong>コンピュータは0と1しか扱えません。8個の0と1の組み合わせで1文字を表します。<br><br>
-      下のボタンで文字に変換できます。
-      <button class="run-btn" onclick="decodeBin()" style="margin-top:.6rem">&#128273;&nbsp; 変換してみる</button>
-      <div class="run-out" id="bin-out"></div>
+      <strong>手順：</strong>
+      <ol>
+        <li>画面左上の「← Toolkit」をタップ</li>
+        <li>「Encode / Decode」タブを選ぶ</li>
+        <li>「Binary」欄に上の数列を貼り付ける</li>
+        <li>「Binary → Text」ボタンを押す</li>
+        <li>表示された <code>CTF{...}</code> がフラグ</li>
+      </ol>
     </div>
     <div class="flag-wrap">
       <input class="flag-input" id="f4" placeholder="CTF{...}" autocomplete="off" autocapitalize="none"/>
