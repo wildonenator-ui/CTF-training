@@ -345,7 +345,7 @@ function toggleHint(id){document.getElementById(id).classList.toggle('show');}
 function check(n,correct){
   const inp=document.getElementById('f'+n),res=document.getElementById('r'+n);
   if(inp.value.trim().toLowerCase()===correct.toLowerCase()){
-    if(!solved[n]){solved[n]=true;updateScore();}
+    if(!solved[n]){solved[n]=true;updateScore();saveState(n,inp.value.trim());}
     inp.className='flag-input ok';
     res.className='result ok';res.innerHTML='&#10003; 正解！ +'+PTS[n]+'pts';
     if(n===6){document.getElementById('special6').classList.add('show');}
@@ -356,6 +356,31 @@ function check(n,correct){
     res.className='result ng';res.innerHTML='&#10007; 不正解。もう一度試してみよう。';
     setTimeout(()=>{inp.className='flag-input';},900);
   }
+}
+
+function saveState(n,val){
+  const data=JSON.parse(localStorage.getItem('ctf-exp')||'{}');
+  data[n]=val;
+  localStorage.setItem('ctf-exp',JSON.stringify(data));
+}
+
+function loadState(){
+  try{
+    const data=JSON.parse(localStorage.getItem('ctf-exp')||'{}');
+    for(const k in data){
+      const n=parseInt(k);
+      const inp=document.getElementById('f'+n);
+      const res=document.getElementById('r'+n);
+      if(!inp||!res)continue;
+      solved[n]=true;
+      inp.value=data[k];
+      inp.className='flag-input ok';
+      res.className='result ok';
+      res.innerHTML='&#10003; 正解！ +'+PTS[n]+'pts';
+      if(n===6)document.getElementById('special6').classList.add('show');
+    }
+    updateScore();
+  }catch(e){}
 }
 
 function updateScore(){
@@ -394,7 +419,7 @@ function showComplete(){
   document.getElementById('complete').classList.add('show');
 }
 
-updateDots();updateNav();
+loadState();updateDots();updateNav();
 </script>
 </body>
 </html>
