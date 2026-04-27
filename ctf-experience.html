@@ -304,9 +304,9 @@ body{background:var(--bg);color:var(--t);font-family:system-ui,sans-serif;displa
 
 <div class="complete" id="complete">
   <div class="complete-box">
-    <div class="trophy">&#127881;</div>
-    <h2>全問クリア！</h2>
-    <p>おめでとうございます。</p>
+    <div class="trophy" id="complete-icon">&#127881;</div>
+    <h2 id="complete-title">全問クリア！</h2>
+    <p id="complete-msg">おめでとうございます。</p>
     <div class="pts" id="final-pts"></div>
     <button class="close-btn" onclick="document.getElementById('complete').classList.remove('show')">Close</button>
     <button class="retry-btn" onclick="resetAll()">&#8635; もう一回体験する</button>
@@ -436,7 +436,16 @@ function resetAll(){
 }
 
 function showComplete(){
-  document.getElementById('final-pts').textContent='総得点: '+Object.keys(solved).reduce((s,k)=>s+PTS[k],0)+' / 550 pts';
+  const cnt=Object.keys(solved).length;
+  const pts=Object.keys(solved).reduce((s,k)=>s+PTS[k],0);
+  const allClear=cnt===TOTAL;
+  document.getElementById('complete-icon').textContent=allClear?'🎉':'👍';
+  document.getElementById('complete-title').textContent=allClear?'全問クリア！':cnt+' / '+TOTAL+' 問正解';
+  document.getElementById('complete-msg').textContent=allClear?'おめでとうございます。':'残りの問題にもぜひ挑戦してみてください。';
+  document.getElementById('final-pts').textContent='総得点: '+pts+' / 550 pts';
+  const box=document.querySelector('.complete-box');
+  box.style.borderColor=allClear?'var(--g)':'var(--a)';
+  document.querySelector('.complete-box h2').style.color=allClear?'var(--g)':'var(--a)';
   document.getElementById('complete').classList.add('show');
 }
 
