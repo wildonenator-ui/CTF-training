@@ -305,7 +305,7 @@ body{background:var(--bg);color:var(--t);font-family:system-ui,sans-serif;displa
   <div class="complete-box">
     <div class="trophy">&#127881;</div>
     <h2>全問クリア！</h2>
-    <p>CTFの基礎から応用まで完全にマスターしました。</p>
+    <p>おめでとうございます。</p>
     <div class="pts" id="final-pts"></div>
     <button class="close-btn" onclick="document.getElementById('complete').classList.remove('show')">Close</button>
   </div>
@@ -323,7 +323,7 @@ function updateDots(){for(let i=1;i<=TOTAL;i++){const d=document.getElementById(
 function updateNav(){
   document.getElementById('btn-prev').disabled=cur<=1;
   const n=document.getElementById('btn-next');
-  if(cur>=TOTAL){n.textContent='完了';n.onclick=()=>{if(Object.keys(solved).length===TOTAL)showComplete();};}
+  if(cur>=TOTAL){n.textContent='完了';n.onclick=()=>showComplete();}
   else{n.textContent='次へ →';n.onclick=()=>go(1);}
 }
 
@@ -350,7 +350,6 @@ function check(n,correct){
     res.className='result ok';res.innerHTML='&#10003; 正解！ +'+PTS[n]+'pts';
     if(n===6){document.getElementById('special6').classList.add('show');}
     updateDots();
-    if(Object.keys(solved).length===TOTAL)setTimeout(showComplete,800);
   }else{
     inp.className='flag-input ng';
     res.className='result ng';res.innerHTML='&#10007; 不正解。もう一度試してみよう。';
