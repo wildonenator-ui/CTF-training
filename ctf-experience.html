@@ -73,6 +73,10 @@ body{background:var(--bg);color:var(--t);font-family:system-ui,sans-serif;displa
 .result{border-radius:8px;font-size:.85rem;padding:.6rem .9rem;display:none;font-weight:500}
 .result.ok{display:block;background:#dafbe1;color:var(--g);border:1px solid #82e09a}
 .result.ng{display:block;background:#ffebe9;color:var(--r);border:1px solid #ffb8b0}
+.special-msg{display:none;background:#ddf4ff;border:2px solid var(--a);border-radius:10px;padding:1rem 1.1rem;margin-top:.6rem;font-size:.85rem;line-height:1.8;color:var(--t)}
+.special-msg.show{display:block}
+.special-msg .flag-accepted{color:var(--a);font-size:1rem;font-weight:700;letter-spacing:.05em;margin-bottom:.5rem}
+.hidden-binary{color:var(--s);background:var(--s);user-select:text;-webkit-user-select:text;font-family:monospace;font-size:.75rem;word-break:break-all;line-height:1.8}
 
 .run-btn{background:var(--t);border:none;border-radius:8px;color:#fff;cursor:pointer;font-size:.83rem;padding:.55rem 1rem;font-weight:600;display:flex;align-items:center;gap:.4rem}
 .run-btn:active{opacity:.8}
@@ -256,6 +260,39 @@ body{background:var(--bg);color:var(--t);font-family:system-ui,sans-serif;displa
     <div class="result" id="r5"></div>
   </div>
 
+  <!-- Q6 Challenge -->
+  <div class="screen" id="s6">
+    <div class="row-top">
+      <span class="cat cat-crypto">Crypto</span>
+      <div class="diff">
+        <span class="star" style="color:#e6c200">&#9733;</span>
+        <span class="star" style="color:#e6c200">&#9733;</span>
+        <span class="star" style="color:#e6c200">&#9733;</span>
+        <span class="star" style="color:#e6c200">&#9733;</span>
+      </div>
+      <span class="pts-badge">150 pts</span>
+    </div>
+    <div class="q-title">ここまでの総括 〜変換は一度だけとは限らない〜</div>
+    <div class="concept">&#128161; <strong>Challenge</strong> — ここまで学んだ変換技術をすべて組み合わせると、答えにたどり着けます。</div>
+    <p class="desc">ここまでの体験をフル活用して、正解にたどり着いてください。</p>
+    <div class="select-area">
+      このページのどこかに手がかりが隠されています。<br>
+      <span class="hidden-binary">01010101 01000101 01100100 01010100 01100101 00110001 01011010 01100110 01100010 01101110 01110000 01100110 01100011 01101101 01000110 00110011 01011001 01101101 01111000 00110010 01011001 01011000 01010010 01100110 01011010 01101110 01010110 00110010 01011010 01101101 01101000 00110100 01100011 01101101 01000110 00111001</span>
+    </div>
+    <div class="flag-wrap">
+      <input class="flag-input" id="f6" placeholder="CTF{...}" autocomplete="off" autocapitalize="none"/>
+      <button class="sub-btn" onclick="check(6,'CTF{I_am_enjoying_shisuken}')">Submit</button>
+    </div>
+    <div class="result" id="r6"></div>
+    <div class="special-msg" id="special6">
+      <div class="flag-accepted">FLAG ACCEPTED.</div>
+      おめでとうございます！正解です！<br><br>
+      懇親会でサイバーセキュリティ研究所 <strong>江利川リーダー</strong>に<br>
+      「<strong>シス研のフラッグを解きました</strong>」とお声がけください。<br><br>
+      フラッグの意味と、解き方の流れを自分の言葉で簡単に説明した方<strong>先着5名</strong>に、研究所オリジナルノベルティをお渡しします。
+    </div>
+  </div>
+
 </div>
 
 <div class="nav">
@@ -267,14 +304,14 @@ body{background:var(--bg);color:var(--t);font-family:system-ui,sans-serif;displa
   <div class="complete-box">
     <div class="trophy">&#127881;</div>
     <h2>全問クリア！</h2>
-    <p>CTFの基礎を完全にマスターしました。</p>
+    <p>CTFの基礎から応用まで完全にマスターしました。</p>
     <div class="pts" id="final-pts"></div>
     <button class="close-btn" onclick="document.getElementById('complete').classList.remove('show')">Close</button>
   </div>
 </div>
 
 <script>
-const TOTAL=5,PTS={1:50,2:75,3:75,4:100,5:100};
+const TOTAL=6,PTS={1:50,2:75,3:75,4:100,5:100,6:150};
 const solved={};let cur=1;
 
 const dotsEl=document.getElementById('dots');
@@ -310,6 +347,7 @@ function check(n,correct){
     if(!solved[n]){solved[n]=true;updateScore();}
     inp.className='flag-input ok';
     res.className='result ok';res.innerHTML='&#10003; 正解！ +'+PTS[n]+'pts';
+    if(n===6){document.getElementById('special6').classList.add('show');}
     updateDots();
     if(Object.keys(solved).length===TOTAL)setTimeout(showComplete,800);
   }else{
@@ -351,7 +389,7 @@ function runCode(){
 }
 
 function showComplete(){
-  document.getElementById('final-pts').textContent='総得点: '+Object.keys(solved).reduce((s,k)=>s+PTS[k],0)+' / 400 pts';
+  document.getElementById('final-pts').textContent='総得点: '+Object.keys(solved).reduce((s,k)=>s+PTS[k],0)+' / 550 pts';
   document.getElementById('complete').classList.add('show');
 }
 
