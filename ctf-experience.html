@@ -99,6 +99,7 @@ body{background:var(--bg);color:var(--t);font-family:system-ui,sans-serif;displa
 .complete-box p{color:var(--m);font-size:.88rem;line-height:1.6}
 .complete-box .pts{color:var(--a);font-size:1.5rem;font-weight:700;margin:.75rem 0}
 .close-btn{background:var(--g);border:none;border-radius:8px;color:#fff;cursor:pointer;font-size:.9rem;margin-top:.75rem;padding:.65rem 2rem;font-weight:700}
+.retry-btn{background:var(--s);border:1px solid var(--b);border-radius:8px;color:var(--t);cursor:pointer;font-size:.9rem;margin-top:.5rem;padding:.65rem 2rem;font-weight:700;width:100%}
 </style>
 </head>
 <body>
@@ -308,6 +309,7 @@ body{background:var(--bg);color:var(--t);font-family:system-ui,sans-serif;displa
     <p>おめでとうございます。</p>
     <div class="pts" id="final-pts"></div>
     <button class="close-btn" onclick="document.getElementById('complete').classList.remove('show')">Close</button>
+    <button class="retry-btn" onclick="resetAll()">&#8635; もう一回体験する</button>
   </div>
 </div>
 
@@ -411,6 +413,26 @@ function decodeBin(){
 function runCode(){
   const out=[68,85,71,124,107,98,119,98,116,100,115,106,113,117,96,103,118,111,126].map(x=>String.fromCharCode(x-1)).join('');
   const el=document.getElementById('run-out');el.textContent=out;el.style.display='block';
+}
+
+function resetAll(){
+  localStorage.removeItem('ctf-exp');
+  for(const k in solved) delete solved[k];
+  for(let i=1;i<=TOTAL;i++){
+    const inp=document.getElementById('f'+i);
+    const res=document.getElementById('r'+i);
+    if(inp){inp.value='';inp.className='flag-input';}
+    if(res){res.className='result';res.innerHTML='';}
+  }
+  const sp=document.getElementById('special6');
+  if(sp) sp.classList.remove('show');
+  document.getElementById('complete').classList.remove('show');
+  document.getElementById('score').textContent='0 pts';
+  cur=1;
+  document.querySelectorAll('.screen').forEach(s=>{s.classList.remove('active','past');});
+  document.getElementById('s1').classList.add('active');
+  document.querySelectorAll('.hint-text').forEach(h=>h.classList.remove('show'));
+  updateDots();updateNav();
 }
 
 function showComplete(){
