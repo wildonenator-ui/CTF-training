@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<meta name="format-detection" content="telephone=no,address=no,email=no"/>
 <title>CTF体験</title>
 <style>
 :root{
@@ -76,7 +77,8 @@ body{background:var(--bg);color:var(--t);font-family:system-ui,sans-serif;displa
 .special-msg{display:none;background:#ddf4ff;border:2px solid var(--a);border-radius:10px;padding:1rem 1.1rem;margin-top:.6rem;font-size:.85rem;line-height:1.8;color:var(--t)}
 .special-msg.show{display:block}
 .special-msg .flag-accepted{color:var(--a);font-size:1rem;font-weight:700;letter-spacing:.05em;margin-bottom:.5rem}
-.hidden-binary{color:var(--s);background:var(--s);user-select:text;-webkit-user-select:text;font-family:monospace;font-size:.75rem;word-break:break-all;line-height:1.8}
+.hidden-binary{color:var(--s)!important;background:var(--s);user-select:text;-webkit-user-select:text;font-family:monospace;font-size:.75rem;word-break:break-all;line-height:1.8}
+.hidden-binary a,.hidden-binary a:link,.hidden-binary a:visited{color:var(--s)!important;text-decoration:none!important;pointer-events:none}
 
 .run-btn{background:var(--t);border:none;border-radius:8px;color:#fff;cursor:pointer;font-size:.83rem;padding:.55rem 1rem;font-weight:600;display:flex;align-items:center;gap:.4rem}
 .run-btn:active{opacity:.8}
