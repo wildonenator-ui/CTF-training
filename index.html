@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; object-src 'none'; base-uri 'none'; form-action 'self';" />
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
   <meta http-equiv="Pragma" content="no-cache" />
   <title>CTF Training Toolkit</title>
@@ -482,7 +483,7 @@
     <h3>Add Challenge</h3>
     <div class="row">
       <label>Name</label>
-      <input type="text" id="ch-name" placeholder="チャレンジ名" />
+      <input type="text" id="ch-name" placeholder="チャレンジ名" maxlength="100" spellcheck="false" />
     </div>
     <div class="row">
       <label>Category</label>
@@ -692,19 +693,39 @@ let challenges = JSON.parse(localStorage.getItem('ctf-challenges') || '[]');
 
 function saveChallenges() { localStorage.setItem('ctf-challenges', JSON.stringify(challenges)); }
 
+const ALLOWED_CATS = ['web','pwn','crypto','rev','forensics','misc'];
+
 function renderTracker() {
   const list = document.getElementById('challenge-list');
   list.innerHTML = '';
   challenges.forEach((ch, i) => {
     const li = document.createElement('li');
     li.className = 'challenge-item ' + (ch.solved ? 'solved' : 'unsolved');
-    li.innerHTML = `
-      <input type="checkbox" class="solve-check" ${ch.solved?'checked':''} onchange="toggleSolve(${i})" />
-      <span class="cat-badge cat-${ch.cat}">${ch.cat}</span>
-      <span class="challenge-name">${ch.name}</span>
-      <span class="challenge-pts">${ch.pts} pts</span>
-      <button class="btn danger" style="padding:2px 8px;font-size:0.75rem;" onclick="removeChallenge(${i})">✕</button>
-    `;
+
+    const chk = document.createElement('input');
+    chk.type = 'checkbox'; chk.className = 'solve-check'; chk.checked = !!ch.solved;
+    chk.addEventListener('change', () => toggleSolve(i));
+
+    const safeCat = ALLOWED_CATS.includes(ch.cat) ? ch.cat : 'misc';
+    const catBadge = document.createElement('span');
+    catBadge.className = 'cat-badge cat-' + safeCat;
+    catBadge.textContent = safeCat;
+
+    const nameSpan = document.createElement('span');
+    nameSpan.className = 'challenge-name';
+    nameSpan.textContent = ch.name;
+
+    const ptsSpan = document.createElement('span');
+    ptsSpan.className = 'challenge-pts';
+    ptsSpan.textContent = ch.pts + ' pts';
+
+    const delBtn = document.createElement('button');
+    delBtn.className = 'btn danger';
+    delBtn.style.cssText = 'padding:2px 8px;font-size:0.75rem;';
+    delBtn.textContent = '✕';
+    delBtn.addEventListener('click', () => removeChallenge(i));
+
+    li.append(chk, catBadge, nameSpan, ptsSpan, delBtn);
     list.appendChild(li);
   });
   updateStats();
@@ -715,12 +736,25 @@ function updateStats() {
   const solved = challenges.filter(c => c.solved).length;
   const pts    = challenges.filter(c => c.solved).reduce((s,c)=>s+c.pts,0);
   const pct    = total ? Math.round(solved/total*100) : 0;
-  document.getElementById('stat-bar').innerHTML = `
-    <div class="stat"><div class="num">${total}</div><div class="lbl">Total</div></div>
-    <div class="stat"><div class="num" style="color:var(--accent2)">${solved}</div><div class="lbl">Solved</div></div>
-    <div class="stat"><div class="num" style="color:var(--warn)">${total-solved}</div><div class="lbl">Unsolved</div></div>
-    <div class="stat"><div class="num">${pts}</div><div class="lbl">Points</div></div>
-  `;
+
+  const bar = document.getElementById('stat-bar');
+  bar.textContent = '';
+  [
+    [total, 'Total', ''],
+    [solved, 'Solved', 'color:var(--accent2)'],
+    [total-solved, 'Unsolved', 'color:var(--warn)'],
+    [pts, 'Points', ''],
+  ].forEach(([val, lbl, style]) => {
+    const stat = document.createElement('div'); stat.className = 'stat';
+    const num  = document.createElement('div'); num.className = 'num';
+    if (style) num.style.cssText = style;
+    num.textContent = val;
+    const lblEl = document.createElement('div'); lblEl.className = 'lbl';
+    lblEl.textContent = lbl;
+    stat.append(num, lblEl);
+    bar.appendChild(stat);
+  });
+
   document.getElementById('prog-fill').style.width = pct + '%';
   document.getElementById('prog-label').textContent = `Progress: ${pct}% (${solved} / ${total})`;
 }
