@@ -4,6 +4,7 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
 <meta name="format-detection" content="telephone=no,address=no,email=no"/>
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; object-src 'none'; base-uri 'none'; form-action 'self';">
 <title>CTF体験</title>
 <style>
 :root{
@@ -136,7 +137,7 @@ body{background:var(--bg);color:var(--t);font-family:system-ui,sans-serif;displa
       </ol>
     </div>
     <div class="flag-wrap">
-      <input class="flag-input" id="f1" placeholder="CTF{...}" autocomplete="off" autocapitalize="none"/>
+      <input class="flag-input" id="f1" placeholder="CTF{...}" autocomplete="off" autocapitalize="none" spellcheck="false" maxlength="80"/>
       <button class="sub-btn" onclick="check(1,'CTF{hidden_in_plain_sight}')">Submit</button>
     </div>
     <div class="result" id="r1"></div>
@@ -166,7 +167,7 @@ body{background:var(--bg);color:var(--t);font-family:system-ui,sans-serif;displa
       </ol>
     </div>
     <div class="flag-wrap">
-      <input class="flag-input" id="f2" placeholder="CTF{...}" autocomplete="off" autocapitalize="none"/>
+      <input class="flag-input" id="f2" placeholder="CTF{...}" autocomplete="off" autocapitalize="none" spellcheck="false" maxlength="80"/>
       <button class="sub-btn" onclick="check(2,'CTF{base64_is_fun}')">Submit</button>
     </div>
     <div class="result" id="r2"></div>
@@ -196,7 +197,7 @@ body{background:var(--bg);color:var(--t);font-family:system-ui,sans-serif;displa
       </ol>
     </div>
     <div class="flag-wrap">
-      <input class="flag-input" id="f3" placeholder="CTF{...}" autocomplete="off" autocapitalize="none"/>
+      <input class="flag-input" id="f3" placeholder="CTF{...}" autocomplete="off" autocapitalize="none" spellcheck="false" maxlength="80"/>
       <button class="sub-btn" onclick="check(3,'CTF{rot13_is_easy}')">Submit</button>
     </div>
     <div class="result" id="r3"></div>
@@ -226,7 +227,7 @@ body{background:var(--bg);color:var(--t);font-family:system-ui,sans-serif;displa
       </ol>
     </div>
     <div class="flag-wrap">
-      <input class="flag-input" id="f4" placeholder="CTF{...}" autocomplete="off" autocapitalize="none"/>
+      <input class="flag-input" id="f4" placeholder="CTF{...}" autocomplete="off" autocapitalize="none" spellcheck="false" maxlength="80"/>
       <button class="sub-btn" onclick="check(4,'CTF{binary}')">Submit</button>
     </div>
     <div class="result" id="r4"></div>
@@ -257,7 +258,7 @@ body{background:var(--bg);color:var(--t);font-family:system-ui,sans-serif;displa
       <strong style="display:block;margin-top:.5rem">コードの意味：</strong>数値の配列から各値に-1して文字に変換、つなげて文字列にしています。
     </div>
     <div class="flag-wrap">
-      <input class="flag-input" id="f5" placeholder="CTF{...}" autocomplete="off" autocapitalize="none"/>
+      <input class="flag-input" id="f5" placeholder="CTF{...}" autocomplete="off" autocapitalize="none" spellcheck="false" maxlength="80"/>
       <button class="sub-btn" onclick="check(5,'CTF{javascript_fun}')">Submit</button>
     </div>
     <div class="result" id="r5"></div>
@@ -283,15 +284,13 @@ body{background:var(--bg);color:var(--t);font-family:system-ui,sans-serif;displa
       <span class="hidden-binary">01010101 01000101 01100100 01010100 01100101 00110001 01011010 01100110 01100010 01101110 01110000 01100110 01100011 01101101 01000110 00110011 01011001 01101101 01111000 00110010 01011001 01011000 01010010 01100110 01011010 01101110 01010110 00110010 01011010 01101101 01101000 00110100 01100011 01101101 01000110 00111001</span>
     </div>
     <div class="flag-wrap">
-      <input class="flag-input" id="f6" placeholder="CTF{...}" autocomplete="off" autocapitalize="none"/>
+      <input class="flag-input" id="f6" placeholder="CTF{...}" autocomplete="off" autocapitalize="none" spellcheck="false" maxlength="80"/>
       <button class="sub-btn" onclick="check(6,'CTF{I_am_enjoying_shisuken}')">Submit</button>
     </div>
     <div class="result" id="r6"></div>
     <div class="special-msg" id="special6">
       <div class="flag-accepted">FLAG ACCEPTED.</div>
-      おめでとうございます！正解です！<br><br>
-      懇親会でサイバーセキュリティ研究所 <strong>リーダー</strong>に「<strong>シス研のフラッグを解きました</strong>」とお声がけください。<br><br>
-      フラッグの意味と、解き方の流れを自分の言葉で簡単に説明した方<strong>先着5名</strong>に、研究所オリジナルノベルティをお渡しします。
+      おめでとうございます！正解です！
     </div>
   </div>
 
@@ -349,12 +348,12 @@ function check(n,correct){
   if(inp.value.trim().toLowerCase()===correct.toLowerCase()){
     if(!solved[n]){solved[n]=true;updateScore();saveState(n,inp.value.trim());}
     inp.className='flag-input ok';
-    res.className='result ok';res.innerHTML='&#10003; 正解！ +'+PTS[n]+'pts';
+    res.className='result ok';res.textContent='✓ 正解！ +'+PTS[n]+'pts';
     if(n===6){document.getElementById('special6').classList.add('show');}
     updateDots();
   }else{
     inp.className='flag-input ng';
-    res.className='result ng';res.innerHTML='&#10007; 不正解。もう一度試してみよう。';
+    res.className='result ng';res.textContent='✗ 不正解。もう一度試してみよう。';
     setTimeout(()=>{inp.className='flag-input';},900);
   }
 }
